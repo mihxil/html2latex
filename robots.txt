@@ -1,0 +1,22 @@
+# /robots.txt 
+# Don't let the search engines reference this computer (it's no use)
+
+# dissallow nonsensical things (copies), and/or those possibly causing a lot of
+# netload.
+User-agent: *
+Disallow: /AT/
+Disallow: /home/
+Disallow: /REVO/
+Disallow: /pmeg/
+Disallow: /pmegu/
+Disallow: /Literaturo/
+Disallow: /~sencay/
+Disallow: /~michiel/
+Disallow: /~laca/
+Disallow: /~
+Disallow: *php
+Disallow: *mp3
+Disallow: *gz
+Disallow: /bibliografio/
+Disallow: /cgi-bin/
+Disallow: /hallo/

@@ -1,0 +1,8 @@
+lynx $1 -dump | sed 's|¼|î|g;s|References|Referencoj|g' | a2ps -o$1.ps \
+--encoding=ISO-8859-3 \
+--borders=no \
+--left-footer="%p." \
+-B \
+--footer  \
+--right-footer="%p."
+
