@@ -19,4 +19,5 @@ Disallow: *mp3
 Disallow: *gz
 Disallow: /bibliografio/
 Disallow: /cgi-bin/
+Disallow: /KL/
 Disallow: /hallo/
