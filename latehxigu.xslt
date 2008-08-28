@@ -20,20 +20,21 @@
 #    ."\\usepackage{newcent}\n"
 #    ."\\usepackage{palatcm}\n"
 -->
-\usepackage{/usr/local/latex/sectsty}
+\usepackage{sectsty}
 \allsectionsfont{\centering}
 <!--
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
 -->
 \def\rim#1{}  % `rimarko'
 \def\a#1{
+<!--
 {\normalsize
 \hspace*{-5em}\vspace*{-2.5ex}
 {\tiny \parbox{5em}{\raggedleft\noindent #1}}
-}
 
 }
-
+-->
+}
 \def\ax#1{\a{#1}\noindent}
 
 \begin{document}

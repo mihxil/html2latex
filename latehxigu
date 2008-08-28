@@ -17,7 +17,7 @@ print "\\documentclass{article}\n"
 #    ."\\usepackage{utopia}\n"
 #    ."\\usepackage{newcent}\n"
 #    ."\\usepackage{palatcm}\n"
-    ."\\usepackage{/usr/local/latex/sectsty}\n"
+    ."\\usepackage{sectsty}\n"
     ."\\allsectionsfont{\\centering}\n"
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
     ."\\def\\jx{\\^\\j }\n"
@@ -39,6 +39,7 @@ while (<>) {
     s|akvoamaso|akvo\\-amaso|g;   
     s|salajro|sa\\-laj\\-ro|g;   
     s|rapidtrajno|ra\\-pid\\-trajno|g;   
+    s|ĉirkaŭrigardis|ĉirkaŭ\\-ri\\-gar\\-dis|g;
 #    s|([iao])s\b|\\-$1s|g;
 #    s|(\w{3,})([oa][jn]{1,2})\b|$1\\-$2|g;    
     s|ĉ|\\^c|g;
