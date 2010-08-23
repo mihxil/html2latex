@@ -12,7 +12,7 @@
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry} <!-- # per tio ĉi eble fari a5libreton, sed bedaŭrinde ne eblas per mia printilo (ankaŭ ŝanĝu en makedvi) -->
 %\usepackage[a4paper, twoside]{geometry}
 \usepackage[esperanto,german]{babel}
-\usepackage{/usr/local/latex/dotlessj}
+\usepackage{dotlessj}
 \usepackage{charter}
 <!--
 #   ."\\usepackage{bookman}\n"
