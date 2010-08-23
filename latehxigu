@@ -11,7 +11,7 @@ print "\\documentclass{article}\n"
     ."\\usepackage[a5paper]{geometry}\n" # per tio ĉi eble fari a5libreton, sed bedaŭrinde ne eblas per mia printilo (ankaŭ ŝanĝu en makedvi)
 #    ."\\usepackage[a4paper, twoside]{geometry}\n"
     ."\\usepackage[esperanto]{babel}\n"
-    ."\\usepackage{/usr/local/latex/dotlessj}\n"
+    ."\\usepackage{dotlessj}\n"
    ."\\usepackage{charter}\n"
 #   ."\\usepackage{bookman}\n"
 #    ."\\usepackage{utopia}\n"
