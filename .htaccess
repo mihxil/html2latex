@@ -1,0 +1,12 @@
+Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^www\.meeuw\.org [NC]
+RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^mihxil\.komputilo\.org [NC]
+RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
+
+RewriteRule ^profitulo\.html$ 8/profitulo.html [R=permanent,L]
+
