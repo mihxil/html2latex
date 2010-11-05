@@ -1,4 +1,4 @@
-# /robots.txt 
+# /robots.txt
 # Don't let the search engines reference this computer (it's no use)
 
 # dissallow nonsensical things (copies), and/or those possibly causing a lot of
@@ -16,8 +16,6 @@ Disallow: /~laca/
 Disallow: /~
 Disallow: *php
 Disallow: *mp3
-Disallow: *gz
-Disallow: /bibliografio/
 Disallow: /cgi-bin/
 Disallow: /KL/
 Disallow: /hallo/
