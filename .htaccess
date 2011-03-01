@@ -12,5 +12,8 @@ RewriteRule ^profitulo\.html$ profitulo [R=permanent,L]
 RewriteRule ^mapo\.html$ 8/mapo.html [R=permanent,L]
 RewriteRule ^saidjah\.txt$ saidjah [R=permanent,L]
 
+# ligature
+RewriteRule ^proﬁtulo(.*) profitulo$1 [R=301,L]
+
 RewriteRule ^index\.html$ / [R=permanent,L]
 

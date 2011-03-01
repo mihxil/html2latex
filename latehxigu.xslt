@@ -56,6 +56,14 @@
     <xsl:call-template name="p" />
   </xsl:template>
 
+  <xsl:template match="h:p[@class='kant']">
+    <xsl:if test="@id">
+      <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
+    </xsl:if>
+    <xsl:text>\vspace{1ex}\noindent</xsl:text>
+    <xsl:call-template name="p" />
+  </xsl:template>
+
   <xsl:template match="h:p">
     <xsl:if test="@id">
       <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
