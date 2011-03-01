@@ -108,7 +108,7 @@
   </xsl:template>
 
   <xsl:template match="h:span" >
-    <xsl:copy-of select="text()" />
+    <xsl:copy-of select="text()|h:a" />
   </xsl:template>
 
   <xsl:template match="h:a" >
