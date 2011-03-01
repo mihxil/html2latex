@@ -7,7 +7,7 @@ setlocale(LC_ALL, "eo");
 undef $/;  #legu per while(<>) la tutan dosieron.
 
 #komencaj aĵoj
-print "\\documentclass{article}\n" 
+print "\\documentclass{article}\n"
     ."\\usepackage[a5paper]{geometry}\n" # per tio ĉi eble fari a5libreton, sed bedaŭrinde ne eblas per mia printilo (ankaŭ ŝanĝu en makedvi)
 #    ."\\usepackage[a4paper, twoside]{geometry}\n"
     ."\\usepackage[esperanto]{babel}\n"
@@ -29,19 +29,20 @@ print "\\documentclass{article}\n"
     ."    }\n\n"
     ."    }\n\n"
     ."\\def\\ax#1{\\a{#1}\\noindent}\n";
-while (<>) {    
+while (<>) {
     s|ŝtrumpetojn|ŝtrump\\-et\\-ojn|g;
     s|antaŭnelonge|antaŭ\\-ne\\-longe|g;
     s|eksport|eks\\-port|g;
     s|renkont|ren\\-kont|g;
     s|rezignaciad|re\\-zig\\-naci\\-ad|g;
-    s|promenbaston|pro\\-men\\-bas\\-ton|g;   
-    s|akvoamaso|akvo\\-amaso|g;   
-    s|salajro|sa\\-laj\\-ro|g;   
-    s|rapidtrajno|ra\\-pid\\-trajno|g;   
+    s|promenbaston|pro\\-men\\-bas\\-ton|g;
+    s|akvoamaso|akvo\\-amaso|g;
+    s|salajro|sa\\-laj\\-ro|g;
+    s|rapidtrajno|ra\\-pid\\-trajno|g;
     s|ĉirkaŭrigardis|ĉirkaŭ\\-ri\\-gar\\-dis|g;
+    s|stenografion|steno\\-gra\\-fion|g;
 #    s|([iao])s\b|\\-$1s|g;
-#    s|(\w{3,})([oa][jn]{1,2})\b|$1\\-$2|g;    
+#    s|(\w{3,})([oa][jn]{1,2})\b|$1\\-$2|g;
     s|ĉ|\\^c|g;
     s|Ĉ|\\^C|g;
     s|ĝ|\\^g|g;
@@ -67,9 +68,8 @@ while (<>) {
 #    s|<!-- -->(.*) <!-- -->||g;
     s|<em>(.*)</em>|{\\em $1 }|g;
     s|<!--NELATEX-->.*?<!--/NELATEX-->| |sg;
-    s|<!--FINO-->|\n\n\\vspace{2ex}\\noindent|g;
     s|\n?<!--.*?-->\n?| |sg;  # ? zorgas ke la plej malgranda parto trafigxu, s ke ankaux \n estu en .
- 
+
 
     s|<a href=\"\#.*?\*</a>||g;
     s|<hr />|\n\n\\vspace{2ex}\\noindent|g;
