@@ -15,6 +15,7 @@
 \usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \usepackage{charter}
 <!--
+#\usepackage[utf8]{inputenc}
 #   ."\\usepackage{bookman}\n"
 #    ."\\usepackage{utopia}\n"
 #    ."\\usepackage{newcent}\n"
@@ -105,6 +106,9 @@
   </xsl:template>
 
   <xsl:template match="h:span[@class='ned']" >
+  </xsl:template>
+
+  <xsl:template match="h:span[@class='mal']" >
   </xsl:template>
 
   <xsl:template match="h:span" >
