@@ -3,6 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0" >
   <xsl:param name="geometry">a5paper</xsl:param>
+  <xsl:param name="centering"></xsl:param>
 
   <xsl:output method="text" />
   <xsl:strip-space  elements="*" />
@@ -21,8 +22,6 @@
 #    ."\\usepackage{newcent}\n"
 #    ."\\usepackage{palatcm}\n"
 -->
-\usepackage{sectsty}
-\allsectionsfont{\centering}
 <!--
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
 -->
@@ -37,8 +36,18 @@
 -->
 }
 \def\ax#1{\a{#1}\noindent}
-
+</xsl:text>
+<xsl:choose>
+  <xsl:when test="$centering = 'yes'">
+    <xsl:text>\def\cxapitro#1{\section*{\centering #1}}</xsl:text>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:text>\def\cxapitro#1{\section*{#1}}</xsl:text>
+  </xsl:otherwise>
+</xsl:choose>
+<xsl:text>
 \begin{document}
+
 \input{titolpag.tex}
 </xsl:text>
 
@@ -81,7 +90,7 @@
 
 
   <xsl:template match="h:h2">
-    <xsl:text>\section*{</xsl:text>
+    <xsl:text>\cxapitro{</xsl:text>
     <xsl:apply-templates  select="text()" />
     <xsl:text>}</xsl:text>
   </xsl:template>
