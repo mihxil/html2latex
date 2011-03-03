@@ -11,10 +11,15 @@
   <xsl:template match="/">
 <xsl:text>\documentclass{article}
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
-\usepackage[esperanto,german]{babel}
+\usepackage[german,esperanto]{babel}
 \usepackage{dotlessj}
 \usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \usepackage{charter}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+
+
 <!--
 #\usepackage[utf8]{inputenc}
 #   ."\\usepackage{bookman}\n"
@@ -55,15 +60,35 @@
 \end{document}
   </xsl:template>
   <xsl:template match="h:body">
-    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr" />
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
   </xsl:template>
 
+  <xsl:template match="h:div[@class='chapter']">
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
+  </xsl:template>
+  <xsl:template match="h:div[@class='par']">
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
+    <xsl:text>\vspace{3ex}</xsl:text>
+  </xsl:template>
+  <xsl:template match="h:div">
+  </xsl:template>
+  <xsl:template match="h:img">
+  </xsl:template>
   <xsl:template match="h:p[@class='sub']">
     <xsl:if test="@id">
       <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
     </xsl:if>
     <xsl:text>\vspace{3ex}\noindent</xsl:text>
     <xsl:call-template name="p" />
+  </xsl:template>
+  <xsl:template match="h:img[@class='right']">
+    <xsl:text>
+      \begin{wrapfigure}{r}{0.5\textwidth}
+      \includegraphics[width=0.5\textwidth]{</xsl:text>
+      <xsl:value-of select="substring-before(@src, '.jpg')" />
+      <xsl:text>}
+      \end{wrapfigure}
+      </xsl:text>
   </xsl:template>
 
   <xsl:template match="h:p[@class='kant']">
@@ -91,7 +116,7 @@
 
   <xsl:template match="h:h2">
     <xsl:text>\cxapitro{</xsl:text>
-    <xsl:apply-templates  select="text()" />
+    <xsl:apply-templates  select="text()|h:a" />
     <xsl:text>}</xsl:text>
   </xsl:template>
   <xsl:template match="h:h1">
@@ -124,12 +149,15 @@
     <xsl:copy-of select="text()|h:a" />
   </xsl:template>
 
-  <xsl:template match="h:a" >
+  <xsl:template match="h:a" >    <xsl:value-of select="text()" />
     <xsl:text>\href{</xsl:text>
     <xsl:value-of select="@href" />
     <xsl:text>}{</xsl:text>
     <xsl:value-of select="text()" />
     <xsl:text>}</xsl:text>
+  </xsl:template>
+  <xsl:template match="h:a[@name]" >
+    <xsl:value-of select="text()" />
   </xsl:template>
 
   <xsl:template match="h:em">

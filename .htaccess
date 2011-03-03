@@ -9,6 +9,7 @@ RewriteCond %{HTTP_HOST} ^mihxil\.komputilo\.org [NC]
 RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
 
 RewriteRule ^profitulo\.html$ profitulo [R=permanent,L]
+RewriteRule ^wimshurst\.html$ wimshurst [R=permanent,L]
 RewriteRule ^mapo\.html$ 8/mapo.html [R=permanent,L]
 RewriteRule ^saidjah\.txt$ saidjah [R=permanent,L]
 
