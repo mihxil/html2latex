@@ -11,7 +11,7 @@
   <xsl:template match="/">
 <xsl:text>\documentclass{article}
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
-\usepackage[german,esperanto]{babel}
+\usepackage[esperanto]{babel}
 \usepackage{dotlessj}
 \usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \usepackage{charter}
