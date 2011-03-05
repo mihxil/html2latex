@@ -2,14 +2,14 @@
 .PHONY: all revisio clean
 .PRECIOUS: %.tex %.eps
 
-DEFAULTDEPS=index.html Makefile ../latehxigu.xslt eo.sed  titolpag.tex revisio.tex
+DEFAULTDEPS=index.html Makefile ../libro.mk ../latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=pdflatex
 
 all: $(TARGETS)
 
 revisio.tex: .svn
 	-@svn up >/dev/null
-	date  --rfc-3339=date | tr -d "\n" > revisio.tex
+	date +'%Y-%m-%d' | tr -d "\n" > revisio.tex
 	svn info |  grep Revision | awk '{print " r" $$2}' >> revisio.tex
 
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
@@ -27,6 +27,7 @@ revisio.tex: .svn
 
 %.dvi: %.tex
 	latex $<
+	rm $*.log $*.out $*.aux
 
 %.signature.ps: %-a5.ps
 	psbook -s$(PAGES) $< $@

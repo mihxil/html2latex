@@ -127,7 +127,9 @@
   </xsl:template>
 
   <xsl:template match="text()">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="normalize-space(.)" />
+    <xsl:text> </xsl:text>
   </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
