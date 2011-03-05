@@ -54,4 +54,4 @@ revisio.tex: .svn
 
 
 clean:
-	rm -f *.pdf *.log *.aux *.dvi *.eps *.out *.ps $(TARGETS)
+	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) revisio.tex *.eps

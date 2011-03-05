@@ -2,15 +2,20 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0" >
+  <!--
+      Converts an HTML file to LaTeX
+  -->
+
   <xsl:param name="geometry">a5paper</xsl:param>
   <xsl:param name="centering"></xsl:param>
+  <xsl:param name="language">esperanto</xsl:param>
 
   <xsl:output method="text" />
   <xsl:strip-space  elements="*" />
 
   <xsl:template match="/">
-<xsl:text>\documentclass{article}
-%Auxtomate kreita de latehxigu.xslt
+    <xsl:text>\documentclass{article}
+    %Auxtomate kreita de latehxigu.xslt
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
 \usepackage[esperanto]{babel}
 \usepackage{dotlessj}
@@ -18,8 +23,6 @@
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-
-
 
 <!--
 #\usepackage[utf8]{inputenc}
@@ -41,8 +44,7 @@
 }
 -->
 }
-\def\ax#1{\a{#1}\noindent}
-</xsl:text>
+\def\ax#1{\a{#1}\noindent} </xsl:text>
 <xsl:choose>
   <xsl:when test="$centering = 'yes'">
     <xsl:text>\def\cxapitro#1{\section*{\centering #1}}</xsl:text>
@@ -79,7 +81,7 @@
     <xsl:if test="@id">
       <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:text>\vspace{3ex}\noindent</xsl:text>
+    <xsl:text>\vspace{3ex}\noindent </xsl:text>
     <xsl:call-template name="p" />
   </xsl:template>
   <xsl:template match="h:img[@class='right']">
@@ -96,7 +98,7 @@
     <xsl:if test="@id">
       <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:text>\vspace{1ex}\noindent</xsl:text>
+    <xsl:text>\vspace{1ex}\noindent </xsl:text>
     <xsl:call-template name="p" />
   </xsl:template>
 
@@ -125,7 +127,7 @@
   </xsl:template>
 
   <xsl:template match="text()">
-    <xsl:value-of select="." />
+    <xsl:value-of select="normalize-space(.)" />
   </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
