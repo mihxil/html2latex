@@ -19,10 +19,35 @@
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
 \usepackage[esperanto]{babel}
 \usepackage{dotlessj}
-\usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{thumbpdf}
+\usepackage[pdftex]{hyperref}
+
+
+\hypersetup{
+  bookmarks=true,
+  bookmarksopen=true,
+  pdfauthor={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" /><xsl:text>},
+  pdftitle={</xsl:text>
+  <xsl:choose>
+    <xsl:when test="/h:html/h:head/h:meta[@name='x-pdftitle']">
+      <xsl:value-of select="/h:html/h:head/h:meta[@name='x-pdftitle']/@content" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="normalize-space(/h:html/h:head/h:title/text())" />
+    </xsl:otherwise>
+  </xsl:choose>
+  <xsl:text>},
+  pdfkeywords={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='keywords']/@content" /><xsl:text>},
+  pdfsubject={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='description']/@content" /><xsl:text>},
+  colorlinks=true,
+  pdfstartview=FitV,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+}
 
 <!--
 #\usepackage[utf8]{inputenc}
@@ -45,17 +70,9 @@
 -->
 }
 \def\ax#1{\a{#1}\noindent} </xsl:text>
-<xsl:choose>
-  <xsl:when test="$centering = 'yes'">
-    <xsl:text>\def\cxapitro#1{\section*{\centering #1}}</xsl:text>
-  </xsl:when>
-  <xsl:otherwise>
-    <xsl:text>\def\cxapitro#1{\section*{#1}}</xsl:text>
-  </xsl:otherwise>
-</xsl:choose>
+
 <xsl:text>
 \begin{document}
-
 \input{titolpag.tex}
 </xsl:text>
 
@@ -84,6 +101,7 @@
     <xsl:text>\vspace{3ex}\noindent </xsl:text>
     <xsl:call-template name="p" />
   </xsl:template>
+
   <xsl:template match="h:img[@class='right']">
     <xsl:text>
       \begin{wrapfigure}{r}{0.5\textwidth}
@@ -118,9 +136,17 @@
 
 
   <xsl:template match="h:h2">
-    <xsl:text>\cxapitro{</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$centering = 'yes'">
+        <xsl:text>\section*{\centering </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\section*{</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:apply-templates  select="text()|h:a" />
     <xsl:text>}</xsl:text>
+    <xsl:text>\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
   </xsl:template>
   <xsl:template match="h:h1">
 

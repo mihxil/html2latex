@@ -27,7 +27,6 @@ revisio.tex: .svn
 
 %.dvi: %.tex
 	latex $<
-	rm $*.log $*.out $*.aux
 
 %.signature.ps: %-a5.ps
 	psbook -s$(PAGES) $< $@
@@ -40,11 +39,13 @@ revisio.tex: .svn
 	psnup -d -l -pa4 -Pa5 -2  $< $@
 
 
-%.pdf: %.ps
-	ps2pdf $<
-
 %.pdf: %.tex
 	-$(PDFLATEX) $<
+	-$(PDFLATEX) $< # another time for the table of contents
+
+
+%.pdf: %.ps
+	ps2pdf $<
 
 
 %.ps.gz: %.ps
@@ -55,4 +56,4 @@ revisio.tex: .svn
 
 
 clean:
-	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) revisio.tex *.eps
+	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) revisio.tex *.eps
