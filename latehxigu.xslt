@@ -10,6 +10,7 @@
 
   <xsl:template match="/">
 <xsl:text>\documentclass{article}
+%Auxtomate kreita de latehxigu.xslt
 \usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
 \usepackage[esperanto]{babel}
 \usepackage{dotlessj}
