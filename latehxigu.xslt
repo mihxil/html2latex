@@ -106,11 +106,14 @@
 
   <xsl:template name="p">
     <xsl:if test="@id">
-      <xsl:text>\phantomsection\label{</xsl:text>
+     <xsl:text>\phantomsection</xsl:text>
+     <!--
+     \label{</xsl:text>
       <xsl:value-of  select="substring(@id, 2)" />
       <xsl:text>}</xsl:text>
+      -->
       <xsl:text>\addcontentsline{toc}{subsection}{</xsl:text><xsl:value-of  select="substring(@id, 2)" /><xsl:text>}</xsl:text>
-      <!--
+     <!--
       <xsl:text>\textsuperscript{\tiny </xsl:text>
       <xsl:value-of select="substring(@id, 2)" />
       <xsl:text>}</xsl:text>
@@ -126,14 +129,17 @@
   <xsl:template match="h:h2">
    <xsl:choose>
       <xsl:when test="$centering = 'yes'">
-        <xsl:text>\section*{\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}\centering </xsl:text>
+        <xsl:text>\section*{\centering </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\section*{\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
+        <xsl:text>\section*{</xsl:text>
      </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates  select="text()|h:a" />
-    <xsl:text>}</xsl:text>
+    <xsl:text>\addcontentsline{toc}{section}{</xsl:text>
+    <xsl:apply-templates  select="text()|h:a" />
+    <xsl:text>}}
+</xsl:text>
  </xsl:template>
   <xsl:template match="h:h1">
 
