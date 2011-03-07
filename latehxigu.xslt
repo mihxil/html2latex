@@ -25,7 +25,6 @@
 \usepackage{thumbpdf}
 \usepackage[pdftex]{hyperref}
 
-
 \hypersetup{
   bookmarks=true,
   bookmarksopen=true,
@@ -48,30 +47,11 @@
   citecolor=blue,
   urlcolor=blue,
 }
-
-<!--
-#\usepackage[utf8]{inputenc}
-#   ."\\usepackage{bookman}\n"
-#    ."\\usepackage{utopia}\n"
-#    ."\\usepackage{newcent}\n"
-#    ."\\usepackage{palatcm}\n"
--->
 <!--
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
 -->
-\def\rim#1{}  % `rimarko'
-\def\a#1{
-<!--
-{\normalsize
-\hspace*{-5em}\vspace*{-2.5ex}
-{\tiny \parbox{5em}{\raggedleft\noindent #1}}
+%\setcounter{tocdepth}{4}
 
-}
--->
-}
-\def\ax#1{\a{#1}\noindent} </xsl:text>
-
-<xsl:text>
 \begin{document}
 \input{titolpag.tex}
 </xsl:text>
@@ -94,40 +74,46 @@
   </xsl:template>
   <xsl:template match="h:img">
   </xsl:template>
-  <xsl:template match="h:p[@class='sub']">
-    <xsl:if test="@id">
-      <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
-    </xsl:if>
-    <xsl:text>\vspace{3ex}\noindent </xsl:text>
-    <xsl:call-template name="p" />
-  </xsl:template>
+
 
   <xsl:template match="h:img[@class='right']">
     <xsl:text>
       \begin{wrapfigure}{r}{0.5\textwidth}
+      \centering
       \includegraphics[width=0.5\textwidth]{</xsl:text>
       <xsl:value-of select="substring-before(@src, '.jpg')" />
       <xsl:text>}
+      \em{</xsl:text><xsl:value-of select="@alt" /><xsl:text>}
       \end{wrapfigure}
       </xsl:text>
   </xsl:template>
 
   <xsl:template match="h:p[@class='kant']">
-    <xsl:if test="@id">
-      <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
-    </xsl:if>
     <xsl:text>\vspace{1ex}\noindent </xsl:text>
     <xsl:call-template name="p" />
   </xsl:template>
 
-  <xsl:template match="h:p">
-    <xsl:if test="@id">
-      <xsl:text>\a{</xsl:text><xsl:value-of select="@id" /><xsl:text>}</xsl:text>
-    </xsl:if>
+  <xsl:template match="h:p[@class='sub']">
+    <xsl:text>\vspace{3ex}\noindent </xsl:text>
     <xsl:call-template name="p" />
   </xsl:template>
 
+  <xsl:template match="h:p">
+   <xsl:call-template name="p" />
+  </xsl:template>
+
   <xsl:template name="p">
+    <xsl:if test="@id">
+      <xsl:text>\phantomsection\label{</xsl:text>
+      <xsl:apply-templates  select="@id" />
+      <xsl:text>} </xsl:text>
+      <xsl:text>\addcontentsline{toc}{subsection}{</xsl:text><xsl:apply-templates  select="@id" /><xsl:text>}</xsl:text>
+      <!--
+      <xsl:text>\textsuperscript{\tiny </xsl:text>
+      <xsl:value-of select="substring(@id, 2)" />
+      <xsl:text>}</xsl:text>
+      -->
+    </xsl:if>
     <xsl:apply-templates select="text()|h:em|h:br|h:span|h:a" />
     <xsl:text>
 
@@ -136,18 +122,17 @@
 
 
   <xsl:template match="h:h2">
-    <xsl:choose>
+   <xsl:choose>
       <xsl:when test="$centering = 'yes'">
-        <xsl:text>\section*{\centering </xsl:text>
+        <xsl:text>\section*{ \addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}\centering </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\section*{</xsl:text>
-      </xsl:otherwise>
+        <xsl:text>\section*{ \addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
+     </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates  select="text()|h:a" />
     <xsl:text>}</xsl:text>
-    <xsl:text>\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
-  </xsl:template>
+ </xsl:template>
   <xsl:template match="h:h1">
 
   </xsl:template>
