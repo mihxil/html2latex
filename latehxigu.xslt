@@ -126,10 +126,10 @@
   <xsl:template match="h:h2">
    <xsl:choose>
       <xsl:when test="$centering = 'yes'">
-        <xsl:text>\section*{ \addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}\centering </xsl:text>
+        <xsl:text>\section*{\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}\centering </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\section*{ \addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
+        <xsl:text>\section*{\addcontentsline{toc}{section}{</xsl:text><xsl:apply-templates  select="text()|h:a" /><xsl:text>}</xsl:text>
      </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates  select="text()|h:a" />
