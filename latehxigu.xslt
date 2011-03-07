@@ -66,10 +66,12 @@
   <xsl:template match="h:div[@class='chapter']">
     <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
   </xsl:template>
+
   <xsl:template match="h:div[@class='par']">
     <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
-    <xsl:text>\vspace{3ex}</xsl:text>
+    <xsl:text>\vspace{2ex}\noindent</xsl:text>
   </xsl:template>
+
   <xsl:template match="h:div">
   </xsl:template>
   <xsl:template match="h:img">
@@ -106,7 +108,7 @@
     <xsl:if test="@id">
       <xsl:text>\phantomsection\label{</xsl:text>
       <xsl:value-of  select="substring(@id, 2)" />
-      <xsl:text>} </xsl:text>
+      <xsl:text>}</xsl:text>
       <xsl:text>\addcontentsline{toc}{subsection}{</xsl:text><xsl:value-of  select="substring(@id, 2)" /><xsl:text>}</xsl:text>
       <!--
       <xsl:text>\textsuperscript{\tiny </xsl:text>
@@ -117,7 +119,7 @@
     <xsl:apply-templates select="text()|h:em|h:br|h:span|h:a" />
     <xsl:text>
 
-    </xsl:text>
+</xsl:text>
   </xsl:template>
 
 
@@ -138,13 +140,11 @@
   </xsl:template>
 
   <xsl:template match="text()">
-    <xsl:text> </xsl:text>
-    <xsl:value-of select="normalize-space(.)" />
-    <xsl:text> </xsl:text>
-  </xsl:template>
+   <xsl:value-of select="normalize-space(.)" />
+ </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
-    <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a" /><xsl:text>}</xsl:text>
+    <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a" /><xsl:text>} </xsl:text>
   </xsl:template>
 
   <xsl:template match="h:span[@class='kapo']" >
