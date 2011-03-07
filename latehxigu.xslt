@@ -105,9 +105,9 @@
   <xsl:template name="p">
     <xsl:if test="@id">
       <xsl:text>\phantomsection\label{</xsl:text>
-      <xsl:apply-templates  select="@id" />
+      <xsl:value-of  select="substring(@id, 2)" />
       <xsl:text>} </xsl:text>
-      <xsl:text>\addcontentsline{toc}{subsection}{</xsl:text><xsl:apply-templates  select="@id" /><xsl:text>}</xsl:text>
+      <xsl:text>\addcontentsline{toc}{subsection}{</xsl:text><xsl:value-of  select="substring(@id, 2)" /><xsl:text>}</xsl:text>
       <!--
       <xsl:text>\textsuperscript{\tiny </xsl:text>
       <xsl:value-of select="substring(@id, 2)" />
