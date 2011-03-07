@@ -1,7 +1,7 @@
 <xsl:stylesheet
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0" >
+   version="1.0" >
   <!--
       Converts an HTML file to LaTeX
   -->
@@ -146,8 +146,20 @@
   </xsl:template>
 
   <xsl:template match="text()">
-   <xsl:value-of select="normalize-space(.)" />
- </xsl:template>
+    <xsl:variable name="start"><xsl:choose><xsl:when test="preceding-sibling::*">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
+    <xsl:variable name="end"><xsl:choose><xsl:when test="following-sibling::*">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
+    <xsl:variable name="text">
+      <xsl:if test="preceding-sibling::*">
+          <xsl:text>|</xsl:text>
+      </xsl:if>
+      <xsl:value-of select="." />
+      <xsl:if test="following-sibling::*">
+        <xsl:text>|</xsl:text>
+      </xsl:if>
+    </xsl:variable>
+   <xsl:variable name="normalized"><xsl:value-of select="normalize-space($text)" /></xsl:variable>
+    <xsl:value-of select="substring($normalized, 1 + $start, string-length($normalized) - $start - $end)" />
+  </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
     <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a" /><xsl:text>} </xsl:text>
