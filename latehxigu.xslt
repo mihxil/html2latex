@@ -149,11 +149,12 @@
      </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates  select="text()|h:a" />
+    <xsl:text>}</xsl:text>
     <xsl:text>\addcontentsline{toc}{section}{</xsl:text>
     <xsl:apply-templates  select="text()|h:a" />
-    <xsl:text>}}
-</xsl:text>
- </xsl:template>
+    <xsl:text>}</xsl:text>
+  </xsl:template>
+
   <xsl:template match="h:h1">
 
   </xsl:template>
