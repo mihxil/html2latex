@@ -60,23 +60,24 @@
 \end{document}
   </xsl:template>
   <xsl:template match="h:body">
-    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img|h:object" />
   </xsl:template>
 
   <xsl:template match="h:div[@class='chapter']">
-    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img|h:object" />
   </xsl:template>
 
   <xsl:template match="h:div[@class='par']">
-    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img" />
+    <xsl:apply-templates select="h:h1|h:h2|h:p|h:hr|h:div|h:img|h:object" />
     <xsl:text>\vspace{2ex}\noindent</xsl:text>
   </xsl:template>
 
   <xsl:template match="h:div">
   </xsl:template>
   <xsl:template match="h:img">
-  </xsl:template>
-
+ </xsl:template>
+  <xsl:template match="h:object">
+ </xsl:template>
 
   <xsl:template match="h:img[@class='right']">
     <xsl:text>
@@ -84,6 +85,18 @@
       \centering
       \includegraphics[width=0.5\textwidth]{</xsl:text>
       <xsl:value-of select="substring-before(@src, '.jpg')" />
+      <xsl:text>}
+      \em{</xsl:text><xsl:value-of select="@alt" /><xsl:text>}
+      \end{wrapfigure}
+      </xsl:text>
+  </xsl:template>
+
+  <xsl:template match="h:object[@class='right']">
+    <xsl:text>
+      \begin{wrapfigure}{r}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.5\textwidth]{</xsl:text>
+      <xsl:value-of select="@data" />
       <xsl:text>}
       \em{</xsl:text><xsl:value-of select="@alt" /><xsl:text>}
       \end{wrapfigure}
