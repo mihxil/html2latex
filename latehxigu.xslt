@@ -22,7 +22,7 @@
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-\usepackage{thumbpdf}
+\usepackage[strict]{changepage}
 \usepackage[pdftex]{hyperref}
 
 \hypersetup{
