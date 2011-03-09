@@ -57,6 +57,8 @@ revisio.tex: .svn
 %.eps: %.jpeg
 	convert $< $@
 
+400px-%.jpg: %.jpg
+	convert -geometry 400 $< $@
 
 clean:
 	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) revisio.tex *.eps
