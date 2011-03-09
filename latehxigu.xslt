@@ -22,7 +22,6 @@
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-\usepackage[strict]{changepage}
 \usepackage[pdftex]{hyperref}
 
 \hypersetup{
@@ -159,21 +158,25 @@
 
   </xsl:template>
 
-  <xsl:template match="text()">
-    <xsl:variable name="start"><xsl:choose><xsl:when test="preceding-sibling::*">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
-    <xsl:variable name="end"><xsl:choose><xsl:when test="following-sibling::*">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
+  <xsl:template name="normalize">
+    <xsl:variable name="start"><xsl:choose><xsl:when test="preceding-sibling::* | preceding-sibling::comment()">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
+    <xsl:variable name="end"><xsl:choose><xsl:when test="following-sibling::* | following-sibling::comment()">1</xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose></xsl:variable>
     <xsl:variable name="text">
-      <xsl:if test="preceding-sibling::*">
+      <xsl:if test="$start = 1">
           <xsl:text>|</xsl:text>
       </xsl:if>
       <xsl:value-of select="." />
-      <xsl:if test="following-sibling::*">
+      <xsl:if test="$end = 1">
         <xsl:text>|</xsl:text>
       </xsl:if>
     </xsl:variable>
-   <xsl:variable name="normalized"><xsl:value-of select="normalize-space($text)" /></xsl:variable>
-    <xsl:value-of select="substring($normalized, 1 + $start, string-length($normalized) - $start - $end)" />
+    <xsl:variable name="normalized"><xsl:value-of select="normalize-space($text)" /></xsl:variable>
+   <xsl:value-of select="substring($normalized, 1 + $start, string-length($normalized) - $start - $end)" />
   </xsl:template>
+
+  <xsl:template match="text()">
+    <xsl:call-template name="normalize" />
+ </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
     <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a" /><xsl:text>} </xsl:text>
@@ -197,7 +200,8 @@
     <xsl:copy-of select="text()|h:a" />
   </xsl:template>
 
-  <xsl:template match="h:a" >    <xsl:value-of select="text()" />
+  <xsl:template match="h:a" >
+    <xsl:value-of select="text()" />
     <xsl:text>\href{</xsl:text>
     <xsl:value-of select="@href" />
     <xsl:text>}{</xsl:text>
