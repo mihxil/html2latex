@@ -5,7 +5,14 @@ RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.meeuw\.org [NC]
 RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
 
+RewriteCond %{HTTP_HOST} ^.*\michielmeeuwissen\.nl [NC]
+RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
+
 RewriteCond %{HTTP_HOST} ^mihxil\.komputilo\.org [NC]
+RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
+
+
+RewriteCond %{HTTP_HOST} ^www\.vek\.komputilo\.org [NC]
 RewriteRule ^(.*) http://meeuw.org/$1 [R=301,L]
 
 RewriteRule ^profitulo\.html$ profitulo [R=permanent,L]
@@ -17,5 +24,7 @@ RewriteRule ^karaktero\.html$ karaktero [R=permanent,L]
 # ligature
 RewriteRule ^proﬁtulo(.*) profitulo$1 [R=301,L]
 
+
+RewriteRule ^osikso(.*) osx$1 [R=301,L]
 RewriteRule ^index\.html$ / [R=permanent,L]
 
