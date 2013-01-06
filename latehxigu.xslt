@@ -200,6 +200,10 @@
     <xsl:copy-of select="text()|h:a" />
   </xsl:template>
 
+  <xsl:template match="h:span" >
+    <xsl:text>{\sc </xsl:text><xsl:copy-of select="text()|h:a" /><xsl:text>}</xsl:text>
+  </xsl:template>
+
   <xsl:template match="h:a" >
     <xsl:value-of select="text()" />
     <xsl:text>\href{</xsl:text>
