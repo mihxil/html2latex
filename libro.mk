@@ -2,25 +2,31 @@
 .PHONY: all revisio clean
 .PRECIOUS: %.tex %.eps
 
-DEFAULTDEPS=index.html Makefile ../libro.mk ../latehxigu.xslt eo.sed  titolpag.tex revisio.tex
+HL=html2latex
+DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=pdflatex
 
 all: $(TARGETS)
 
-revisio.tex: .svn
-	-@svn up >/dev/null
+revisio.tex: .git
+	-@git pull >/dev/null
 	date +'%Y-%m-%d' | tr -d "\n" > revisio.tex
-	svn info |  grep Revision | awk '{print " r" $$2}' >> revisio.tex
+	git rev-parse HEAD >> revisio.tex
 
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
-	xsltproc -novalid --stringparam centering '$(CENTERING)' ../latehxigu.xslt index.html  \
-	| sed -f eo.sed -f ../utf8-tex.sed \
+	xsltproc -novalid --stringparam centering '$(CENTERING)' $(HL)/latehxigu.xslt index.html  \
+	| sed -f eo.sed -f $(HL)/utf8-tex.sed \
 	> $@
 
 %-a4.tex: $(DEFAULTDEPS) $(DEPS)
-	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper ../latehxigu.xslt index.html \
-	| sed -f eo.sed -f  ../utf8-tex.sed \
+	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper $(HL)/latehxigu.xslt index.html \
+	| sed -f eo.sed -f  $(HL)/utf8-tex.sed \
+	> $@
+
+%-epub.tex: $(DEFAULTDEPS) $(DEPS)
+	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper --stringparam titolpagxo titolpag_epub   $(HL)/latehxigu.xslt index.html \
+	| sed -f eo.sed -f  $(HL)/utf8-tex.sed \
 	> $@
 
 
@@ -59,6 +65,11 @@ revisio.tex: .svn
 
 400px-%.jpg: %.jpg
 	convert -geometry 400 $< $@
+
+
+%.epub: %-epub.tex
+	pandoc $< --metadata title="$*" -o $@
+	#pandoc $< --metadata title="" -o $@
 
 clean:
 	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) revisio.tex *.eps

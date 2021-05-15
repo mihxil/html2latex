@@ -9,6 +9,8 @@
   <xsl:param name="geometry">a5paper</xsl:param>
   <xsl:param name="centering"></xsl:param>
   <xsl:param name="language">esperanto</xsl:param>
+  <xsl:param name="titolpagxo">titolpag</xsl:param>
+
 
   <xsl:output method="text" />
   <xsl:strip-space  elements="*" />
@@ -22,7 +24,7 @@
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-\usepackage[pdftex]{hyperref}
+\usepackage{hyperref}
 
 \hypersetup{
   bookmarks=true,
@@ -52,8 +54,9 @@
 %\setcounter{tocdepth}{4}
 
 \begin{document}
-\input{titolpag.tex}
-</xsl:text>
+\input{</xsl:text>
+<xsl:value-of select="$titolpagxo" />
+<xsl:text>}</xsl:text>
 
     <xsl:apply-templates select="h:html/h:body" />
 \end{document}
