@@ -6,6 +6,8 @@ HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=latexmk -pdf
 
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+
 all: $(TARGETS) latexclean
 
 revisio.tex: .git
@@ -70,10 +72,10 @@ revisio.tex: .git
 	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
 
 per-docker:
-	docker run --rm -v `pwd`:/laboro mihxil/html2latex:latest make -C /laboro
+	docker run --rm -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
 
 per-docker-i386:
-	docker run --rm -v `pwd`:/laboro mihxil/html2latex:i386 make -C /laboro
+	docker run --rm -v `pwd`/..:/laboro mihxil/html2latex:i386 make -C /laboro/$(notdir $(CURDIR))
 
 latexclean:
 	latexmk -c
