@@ -69,9 +69,8 @@ revisio.tex: .git
 %-epub.metadata: index.html
 	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
 
-docker-build:
-	docker build -t html2latex html2latex
-	docker run --rm -v `pwd`:/laboro html2latex make -C /laboro
+per-docker:
+	docker run --rm -v `pwd`:/laboro mihxil/html2latex make -C /laboro
 
 latexclean:
 	latexmk -c
