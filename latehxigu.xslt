@@ -16,9 +16,9 @@
   <xsl:strip-space  elements="*" />
 
   <xsl:template match="/">
-    <xsl:text>\documentclass{article}
-    %Auxtomate kreita de latehxigu.xslt
-\usepackage[</xsl:text><xsl:value-of select="$geometry" /><xsl:text>]{geometry}
+\documentclass{article}
+%Auxtomate kreita de latehxigu.xslt
+\usepackage[<xsl:value-of select="$geometry" />]{geometry}
 \usepackage[esperanto]{babel}
 \usepackage{dotlessj}
 \usepackage{charter}
@@ -29,8 +29,8 @@
 \hypersetup{
   bookmarks=true,
   bookmarksopen=true,
-  pdfauthor={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" /><xsl:text>},
-  pdftitle={</xsl:text>
+  pdfauthor={<xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" />},
+  pdftitle={
   <xsl:choose>
     <xsl:when test="/h:html/h:head/h:meta[@name='x-pdftitle']">
       <xsl:value-of select="/h:html/h:head/h:meta[@name='x-pdftitle']/@content" />
@@ -39,9 +39,9 @@
       <xsl:value-of select="normalize-space(/h:html/h:head/h:title/text())" />
     </xsl:otherwise>
   </xsl:choose>
-  <xsl:text>},
-  pdfkeywords={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='keywords']/@content" /><xsl:text>},
-  pdfsubject={</xsl:text><xsl:value-of select="/h:html/h:head/h:meta[@name='description']/@content" /><xsl:text>},
+  },
+  pdfkeywords={<xsl:value-of select="/h:html/h:head/h:meta[@name='keywords']/@content" />},
+  pdfsubject={<xsl:value-of select="/h:html/h:head/h:meta[@name='description']/@content" />},
   colorlinks=true,
   pdfstartview=FitV,
   linkcolor=blue,
@@ -52,13 +52,11 @@
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
 -->
 %\setcounter{tocdepth}{4}
-
+\title{<xsl:value-of select="normalize-space(/h:html/h:body/h:h1/text())" />}
+\author{<xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" />}
 \begin{document}
-\input{</xsl:text>
-<xsl:value-of select="$titolpagxo" />
-<xsl:text>}</xsl:text>
-
-    <xsl:apply-templates select="h:html/h:body" />
+\input{<xsl:value-of select="$titolpagxo" />}
+<xsl:apply-templates select="h:html/h:body" />
 \end{document}
   </xsl:template>
   <xsl:template match="h:body">

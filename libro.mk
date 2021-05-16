@@ -1,6 +1,7 @@
 
 .PHONY: all revisio clean
-.PRECIOUS: %.tex %.eps
+.INTERMEDIATE: %.tex
+.PRECIOUS: %.eps
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
@@ -10,8 +11,9 @@ all: $(TARGETS)
 
 revisio.tex: .git
 	-@git pull >/dev/null
-	date +'%Y-%m-%d' | tr -d "\n" > revisio.tex
-	git rev-parse HEAD >> revisio.tex
+	git log -1 --date=iso  --format=%cd  > $@
+	printf %% >> $@
+	git rev-parse HEAD >> $@
 
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
@@ -68,8 +70,8 @@ revisio.tex: .git
 
 
 %.epub: %-epub.tex
-	pandoc $< --metadata title="$*" -o $@
-	#pandoc $< --metadata title="" -o $@
+	pandoc -o $@  --epub-metadata=epub.metadata $<
+	@#pandoc $< --metadata title="" -o $@
 
 %-epub.metadata: index.html
 
