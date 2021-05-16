@@ -71,5 +71,7 @@ revisio.tex: .git
 	pandoc $< --metadata title="$*" -o $@
 	#pandoc $< --metadata title="" -o $@
 
+%-epub.metadata: index.html
+
 clean:
 	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) revisio.tex *.eps
