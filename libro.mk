@@ -1,15 +1,14 @@
 
-.PHONY: all clean
+.PHONY: all latexclean clean docker-build
 .INTERMEDIATE: %-a5.tex %-a4.tex %-epub.tex revisio.tex %-epub.metadata
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=latexmk -pdf
 
-all: $(TARGETS)
+all: $(TARGETS) latexclean
 
 revisio.tex: .git
-	-@git pull >/dev/null
 	git log -1 --date=iso  --format=%cd  > $@
 	printf %% >> $@
 	git rev-parse HEAD >> $@
@@ -31,8 +30,7 @@ revisio.tex: .git
 	> $@
 
 %.dvi: %.tex
-	latexmk $<
-	latexmk -c
+	latexmk -dvi $<
 
 %.signature.ps: %-a5.ps
 	psbook -s$(PAGES) $< $@
@@ -45,7 +43,6 @@ revisio.tex: .git
 
 %.pdf: %.tex
 	-$(PDFLATEX) $<
-	-$(PDFLATEX) -c
 
 %.pdf: %.ps
 	ps2pdf $<
@@ -71,6 +68,13 @@ revisio.tex: .git
 
 %-epub.metadata: index.html
 	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
+
+docker-build:
+	docker build -t html2latex html2latex
+	docker run --rm -v `pwd`:/laboro html2latex make -C /laboro
+
+latexclean:
+	latexmk -c
 
 clean:
 	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) $(TARGETS:.epub=-epub.metadata) $(TARGETS:.epub=-epub.tex) revisio.tex *.eps
