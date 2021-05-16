@@ -1,11 +1,10 @@
 
-.PHONY: all revisio clean
-.INTERMEDIATE: %.tex
-.PRECIOUS: %.eps
+.PHONY: all clean
+.INTERMEDIATE: %-a5.tex %-a4.tex %-epub.tex revisio.tex %-epub.metadata
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
-PDFLATEX=pdflatex
+PDFLATEX=latexmk -pdf
 
 all: $(TARGETS)
 
@@ -31,10 +30,9 @@ revisio.tex: .git
 	| sed -f eo.sed -f  $(HL)/utf8-tex.sed \
 	> $@
 
-
-
 %.dvi: %.tex
-	latex $<
+	latexmk $<
+	latexmk -c
 
 %.signature.ps: %-a5.ps
 	psbook -s$(PAGES) $< $@
@@ -42,15 +40,12 @@ revisio.tex: .git
 %.ps: %.dvi
 	dvips $< -f > $@
 
-
 %-libreto.ps:  %.signature.ps
 	psnup -d -l -pa4 -Pa5 -2  $< $@
 
-
 %.pdf: %.tex
 	-$(PDFLATEX) $<
-	-$(PDFLATEX) $< # another time for the table of contents
-
+	-$(PDFLATEX) -c
 
 %.pdf: %.ps
 	ps2pdf $<
@@ -68,12 +63,14 @@ revisio.tex: .git
 400px-%.jpg: %.jpg
 	convert -geometry 400 $< $@
 
-
-%.epub: %-epub.tex
-	pandoc -o $@  --epub-metadata=epub.metadata $<
+%.epub: %-epub.tex %-epub.metadata revisio.tex
+	pandoc -o $@  --epub-metadata=$*-epub.metadata $<
 	@#pandoc $< --metadata title="" -o $@
 
+
+
 %-epub.metadata: index.html
+	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
 
 clean:
-	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) revisio.tex *.eps
+	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) $(TARGETS:.epub=-epub.metadata) $(TARGETS:.epub=-epub.tex) revisio.tex *.eps

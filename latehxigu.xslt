@@ -11,12 +11,12 @@
   <xsl:param name="language">esperanto</xsl:param>
   <xsl:param name="titolpagxo">titolpag</xsl:param>
 
+  <xsl:include href="util.xslt" />
 
   <xsl:output method="text" />
   <xsl:strip-space  elements="*" />
 
-  <xsl:template match="/">
-\documentclass{article}
+  <xsl:template match="/">\documentclass{book}
 %Auxtomate kreita de latehxigu.xslt
 \usepackage[<xsl:value-of select="$geometry" />]{geometry}
 \usepackage[esperanto]{babel}
@@ -31,14 +31,7 @@
   bookmarksopen=true,
   pdfauthor={<xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" />},
   pdftitle={
-  <xsl:choose>
-    <xsl:when test="/h:html/h:head/h:meta[@name='x-pdftitle']">
-      <xsl:value-of select="/h:html/h:head/h:meta[@name='x-pdftitle']/@content" />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="normalize-space(/h:html/h:head/h:title/text())" />
-    </xsl:otherwise>
-  </xsl:choose>
+  <xsl:call-template name="title" />
   },
   pdfkeywords={<xsl:value-of select="/h:html/h:head/h:meta[@name='keywords']/@content" />},
   pdfsubject={<xsl:value-of select="/h:html/h:head/h:meta[@name='description']/@content" />},
@@ -52,7 +45,7 @@
 #    ."\\def\\jx{j\\hspace{-0.6ex}\\^{ }}\n"
 -->
 %\setcounter{tocdepth}{4}
-\title{<xsl:value-of select="normalize-space(/h:html/h:body/h:h1/text())" />}
+\title{<xsl:call-template name="title" />}
 \author{<xsl:value-of select="/h:html/h:head/h:meta[@name='author']/@content" />}
 \begin{document}
 \input{<xsl:value-of select="$titolpagxo" />}
@@ -223,4 +216,5 @@
   <xsl:template match="h:br">
     <xsl:text>\\</xsl:text>
   </xsl:template>
+
 </xsl:stylesheet>
