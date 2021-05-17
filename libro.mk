@@ -72,7 +72,7 @@ revisio.tex: .git
 	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
 
 per-docker:
-	docker run --rm -v `pwd`/..:/laboro mihxil/html2latex:manifest-latest make -C /laboro/$(notdir $(CURDIR))
+	docker run --rm -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
 
 
 latexclean:
