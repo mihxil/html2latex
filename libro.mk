@@ -10,8 +10,8 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
 all: $(TARGETS) latexclean
 
-revisio.tex: .git
-	git log -1 --date=iso  --format=%cd  > $@
+revisio.tex: .git $(HL)/libro.mk
+	git log -1 --date=short  --format=%cd  > $@
 	printf %% >> $@
 	git rev-parse HEAD >> $@
 
