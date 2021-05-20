@@ -5,4 +5,4 @@ I use this to convert some translations which I maintain in (X)html to other for
 
 Used e.g. in https://github.com/mihxil/profitulo
 
-https://hub.docker.com/r/mihxil/latex2html
+https://hub.docker.com/r/mihxil/html2latex
