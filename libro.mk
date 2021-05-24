@@ -12,7 +12,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 all: $(TARGETS) revisio.txt latexclean
 
 revisio.tex: revisio.txt
-	cat git log -1 --date=short  --format=%cd  > $@
+	cat $<  > $@
 	printf %% >> $@
 	git rev-parse HEAD >> $@
 
