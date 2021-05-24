@@ -1,6 +1,7 @@
 
 .PHONY: all latexclean clean docker-build
 .INTERMEDIATE: %-a5.tex %-a4.tex %-epub.tex revisio.tex %-epub.metadata
+.SECONDARY: revisio.txt
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
@@ -8,12 +9,16 @@ PDFLATEX=latexmk -pdf
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
-all: $(TARGETS) latexclean
+all: $(TARGETS) revisio.txt latexclean
 
-revisio.tex: .git $(HL)/libro.mk
-	git log -1 --date=short  --format=%cd  > $@
+revisio.tex: revisio.txt
+	cat git log -1 --date=short  --format=%cd  > $@
 	printf %% >> $@
 	git rev-parse HEAD >> $@
+
+revisio.txt: .git $(HL)/libro.mk
+	git log -1 --date=short  --format=%cd  > $@
+
 
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
