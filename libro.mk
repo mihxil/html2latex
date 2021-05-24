@@ -5,7 +5,7 @@
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
-PDFLATEX=latexmk -pdf
+PDFLATEX=latexmk -lualatex
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
@@ -23,17 +23,14 @@ revisio.txt: .git $(HL)/libro.mk
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' $(HL)/latehxigu.xslt index.html  \
-	| sed -f eo.sed -f $(HL)/utf8-tex.sed \
 	> $@
 
 %-a4.tex: $(DEFAULTDEPS) $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper $(HL)/latehxigu.xslt index.html \
-	| sed -f eo.sed -f  $(HL)/utf8-tex.sed \
 	> $@
 
 %-epub.tex: $(DEFAULTDEPS) $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper --stringparam titolpagxo titolpag_epub   $(HL)/latehxigu.xslt index.html \
-	| sed -f eo.sed -f  $(HL)/utf8-tex.sed \
 	> $@
 
 %.dvi: %.tex
@@ -51,8 +48,8 @@ revisio.txt: .git $(HL)/libro.mk
 %.pdf: %.tex
 	-$(PDFLATEX) $<
 
-%.pdf: %.ps
-	ps2pdf $<
+#%.pdf: %.ps
+#	ps2pdf $<
 
 
 %.ps.gz: %.ps
