@@ -39,17 +39,19 @@ revisio.txt: .git $(HL)/libro.mk
 %.signature.ps: %-a5.ps
 	psbook -s$(PAGES) $< $@
 
-%.ps: %.dvi
-	dvips $< -f > $@
 
-%-libreto.ps:  %.signature.ps
+%.libreto.ps:  %.signature.ps
 	psnup -d -l -pa4 -Pa5 -2  $< $@
+
+%-libreto.pdf: %.libreto.ps
+	ps2pdf $< $@
 
 %.pdf: %.tex
 	-$(PDFLATEX) $<
 
-#%.pdf: %.ps
-#	ps2pdf $<
+%.ps: %.pdf
+	pdf2ps $<
+
 
 
 %.ps.gz: %.ps

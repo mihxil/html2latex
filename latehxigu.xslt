@@ -19,9 +19,6 @@
   <xsl:template match="/">\documentclass{book}
 %Auxtomate kreita de latehxigu.xslt
 \usepackage[<xsl:value-of select="$geometry" />]{geometry}
-\usepackage{fontspec}
-\setmainfont{Times New Roman}
-
 \usepackage[utf8]{inputenc}
 \usepackage[esperanto]{babel}
 \usepackage{dotlessj}
