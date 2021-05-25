@@ -3,21 +3,26 @@
 NAME=mihxil/html2latex
 NAME2=mihxil/latex2html
 
-docker: docker-amd64 docker-i386 docker-manifest
+docker: docker-amd64-push docker-i386-push docker-manifest
 
 docker-amd64:
 	docker build -t $(NAME):amd64-latest --build-arg ARCH=amd64/ .
+
+docker-amd64-push: docker-amd64
 	docker push $(NAME):amd64-latest
 
 docker2-amd64:
 	docker build -t $(NAME2):amd64-latest --build-arg TAG=amd64-latest latex2html
+
+
+docker2-amd64-push: docker2-amd64
 	docker push $(NAME2):amd64-latest
 
-docker-i386:
+docker-i386-push:
 	docker build -t $(NAME):i386-latest --build-arg ARCH=i386/ .
 	docker push $(NAME):i386-latest
 
-docker2-i386:
+docker2-i386-push:
 	docker build -t $(NAME2):i386-latest -platform i386 --build-arg TAG=i386-latest latex2html
 	docker push $(NAME2):i386-latest
 

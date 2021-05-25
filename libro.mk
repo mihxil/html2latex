@@ -5,7 +5,7 @@
 
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
-PDFLATEX=latexmk -lualatex
+PDFLATEX=latexmk -xelatex
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
