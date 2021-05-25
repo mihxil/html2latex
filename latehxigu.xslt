@@ -19,9 +19,7 @@
   <xsl:template match="/">\documentclass{book}
 %Auxtomate kreita de latehxigu.xslt
 \usepackage[<xsl:value-of select="$geometry" />]{geometry}
-\usepackage[utf8]{inputenc}
 \usepackage[esperanto]{babel}
-\usepackage{dotlessj}
 \usepackage{charter}
 \usepackage{graphicx}
 \usepackage{wrapfig}
