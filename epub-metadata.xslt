@@ -11,15 +11,12 @@
   <xsl:template match="/">
     <dc:language><xsl:value-of select="/h:html/@lang" /></dc:language>
     <xsl:text>
-
     </xsl:text>
     <dc:identifier><xsl:value-of select="/h:html/h:head/h:meta[@name='url']/@content" /></dc:identifier>
     <xsl:text>
-
     </xsl:text>
     <dc:title><xsl:call-template name="title" /></dc:title>
     <xsl:text>
-
     </xsl:text>
     <dc:rights>Creative Commons</dc:rights>
   </xsl:template>

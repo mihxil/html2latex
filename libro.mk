@@ -78,8 +78,8 @@ revisio.txt: .FORCE
 
 
 
-%-epub.metadata: index.html
-	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
+%-epub.metadata: index.html $(HL)/epub-metadata.xslt
+	xsltproc -novalid   $(HL)/epub-metadata.xslt $<  > $@
 
 per-docker:
 	docker run --rm --user $(CURRENT_UID):$(CURRENT_GID) -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
