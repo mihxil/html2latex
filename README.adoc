@@ -1,3 +1,8 @@
 = html2latex
 
 I use this to convert some translations which I maintain in (X)html to other formats. Most noticably to LaTeX which is then used to make PDF and EPUB versions.
+
+
+Used e.g. in https://github.com/mihxil/profitulo
+
+https://hub.docker.com/r/mihxil/html2latex
