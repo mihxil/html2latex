@@ -7,8 +7,22 @@ HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=latexmk -xelatex
 
-mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+mkfile_path:=$(abspath $(lastword $(MAKEFILE_LIST)))
 
+<<<<<<< HEAD
+=======
+CURRENT_UID:=$(shell id -u)
+CURRENT_GID:=$(shell id -g)
+
+
+SEDFILE=eo.sed
+ifneq ("$(wildcard $(SEDFILE))","")
+    SED=sed -f $(HL)/eo.sed -f $(SEDFILE)
+else
+    SED=sed -f $(HL)/eo.sed
+endif
+
+>>>>>>> 951127d... eo.sed
 all: $(TARGETS) revisio.txt latexclean
 
 revisio.tex: revisio.txt
@@ -23,15 +37,15 @@ revisio.txt: .git $(HL)/libro.mk
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' $(HL)/latehxigu.xslt index.html  \
-	> $@
+	| $(SED) > $@
 
 %-a4.tex: $(DEFAULTDEPS) $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper $(HL)/latehxigu.xslt index.html \
-	> $@
+	| $(SED) > $@
 
 %-epub.tex: $(DEFAULTDEPS) $(DEPS)
 	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper --stringparam titolpagxo titolpag_epub   $(HL)/latehxigu.xslt index.html \
-	> $@
+	| $(SED) > $@
 
 %.dvi: %.tex
 	latexmk -dvi $<
