@@ -23,7 +23,7 @@ docker-i386-push:
 	docker push $(NAME):i386-latest
 
 docker2-i386-push:
-	docker build -t $(NAME2):i386-latest -platform i386 --build-arg TAG=i386-latest latex2html
+	docker build -t $(NAME2):i386-latest --build-arg TAG=i386-latest latex2html
 	docker push $(NAME2):i386-latest
 
 docker-manifest:
