@@ -1,5 +1,5 @@
 
-.PHONY: all latexclean clean docker-build
+.PHONY: all latexclean clean docker-build .FORCE
 .INTERMEDIATE: %-a5.tex %-a4.tex %-epub.tex revisio.tex %-epub.metadata
 .SECONDARY: revisio.txt
 
@@ -9,6 +9,12 @@ PDFLATEX=latexmk -xelatex
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
+CURRENT_UID := $(shell id -u)
+CURRENT_GID := $(shell id -g)
+
+export CURRENT_UID
+export CURRENT_GID
+
 all: $(TARGETS) revisio.txt latexclean
 
 revisio.tex: revisio.txt
@@ -16,7 +22,7 @@ revisio.tex: revisio.txt
 	printf %% >> $@
 	git rev-parse HEAD >> $@
 
-revisio.txt: .git $(HL)/libro.mk
+revisio.txt: .FORCE
 	git log -1 --date=short  --format=%cd  > $@
 
 
@@ -76,11 +82,11 @@ revisio.txt: .git $(HL)/libro.mk
 	xsltproc -novalid   $(HL)/epub-metadata.xslt index.html  > $@
 
 per-docker:
-	docker run --rm -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
+	docker run --rm --user $(CURRENT_UID):$(CURRENT_GID) -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
 
 
 latexclean:
 	latexmk -c
 
 clean:
-	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) $(TARGETS:.epub=-epub.metadata) $(TARGETS:.epub=-epub.tex) revisio.tex *.eps
+	rm -f  $(TARGETS) $(TARGETS:.pdf=.tex) $(TARGETS:.pdf=.aux) $(TARGETS:.pdf=.out) $(TARGETS:.pdf=.log) $(TARGETS:.pdf=.dvi) $(TARGETS:.epub=-epub.metadata) $(TARGETS:.epub=-epub.tex) revisio.tex *.eps *.xdv
