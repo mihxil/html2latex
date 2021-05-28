@@ -25,6 +25,10 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{hyperref}
+\usepackage{textcomp}
+
+\newcommand{\email}[1]{\textlangle{}\href{mailto:#1}{\texttt{#1}}\textrangle{}}
+
 
 \hypersetup{
   bookmarks=true,
