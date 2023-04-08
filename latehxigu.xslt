@@ -1,7 +1,7 @@
 <xsl:stylesheet
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   version="1.0" >
+   version="1.1" >
   <!--
       Converts an HTML file to LaTeX
   -->
@@ -176,7 +176,7 @@
  </xsl:template>
 
   <xsl:template match="h:span[@class='noto']" >
-    <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a" /><xsl:text>} </xsl:text>
+    <xsl:text>\footnote{</xsl:text><xsl:apply-templates select="text()|h:span|h:a|h:em" /><xsl:text>} </xsl:text>
   </xsl:template>
 
   <xsl:template match="h:span[@class='kapo']" >
@@ -192,19 +192,24 @@
 
   <xsl:template match="h:span[@class='mal']" >
   </xsl:template>
-
+  
+     
   <xsl:template match="h:span" >
-    <xsl:copy-of select="text()|h:a" />
+    <xsl:apply-templates select="text()|h:span|h:a|h:em" />
   </xsl:template>
 
-  <xsl:template match="h:span" >
-    <xsl:text>{\sc </xsl:text><xsl:copy-of select="text()|h:a" /><xsl:text>}</xsl:text>
+ 
+  <xsl:template match="h:span[@class='klar']" >
+    <xsl:text>{\sc </xsl:text><xsl:apply-templates select="text()|h:span|h:a|h:em" /><xsl:text>}</xsl:text>
   </xsl:template>
 
   <xsl:template match="h:a" >
-    <xsl:value-of select="text()" />
     <xsl:text>\href{</xsl:text>
-    <xsl:value-of select="@href" />
+    <xsl:call-template name="replace-string">
+      <xsl:with-param name="text" select="@href"/>
+      <xsl:with-param name="replace" select="'%'" />
+      <xsl:with-param name="with" select="'\%'"/>
+    </xsl:call-template>
     <xsl:text>}{</xsl:text>
     <xsl:value-of select="text()" />
     <xsl:text>}</xsl:text>
