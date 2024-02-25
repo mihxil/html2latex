@@ -1,7 +1,7 @@
 <xsl:stylesheet
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   version="1.1" >
+   version="3.0" >
   <!--
       Converts an HTML file to LaTeX
   -->
@@ -71,16 +71,24 @@
   <xsl:template match="h:div">
   </xsl:template>
   <xsl:template match="h:img">
- </xsl:template>
+
+  </xsl:template>
   <xsl:template match="h:object">
  </xsl:template>
 
-  <xsl:template match="h:img[@class='right']">
+  <xsl:template match="h:img[@class='right' or @class='left']">
+    <xsl:variable name="align">
+      <xsl:choose>
+        <xsl:when test="@class = 'right'">r</xsl:when>
+        <xsl:when test="@class = 'left'">l</xsl:when>
+      </xsl:choose>
+      
+    </xsl:variable>
     <xsl:text>
-      \begin{wrapfigure}{r}{0.5\textwidth}
+      \begin{wrapfigure}{$align}{0.5\textwidth}
       \centering
       \includegraphics[width=0.5\textwidth]{</xsl:text>
-      <xsl:value-of select="substring-before(@src, '.jpg')" />
+      <xsl:value-of select="@src" />
       <xsl:text>}
       \em{</xsl:text><xsl:value-of select="@alt" /><xsl:text>}
       \end{wrapfigure}
@@ -128,7 +136,7 @@
       <xsl:text>}</xsl:text>
       -->
     </xsl:if>
-    <xsl:apply-templates select="text()|h:em|h:br|h:span|h:a" />
+    <xsl:apply-templates select="text()|h:em|h:br|h:span|h:a|h:img" />
     <xsl:text>
 
 </xsl:text>

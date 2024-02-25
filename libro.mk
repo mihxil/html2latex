@@ -6,6 +6,13 @@
 HL=html2latex
 DEFAULTDEPS=index.html Makefile $(HL)/libro.mk $(HL)/latehxigu.xslt eo.sed  titolpag.tex revisio.tex
 PDFLATEX=latexmk -xelatex
+SAXON=saxon
+
+ifeq (, $(shell which saxon))
+  SAXON=saxon-xslt
+endif
+
+
 
 mkfile_path:=$(abspath $(lastword $(MAKEFILE_LIST)))
 
@@ -35,15 +42,15 @@ revisio.txt: .FORCE
 
 %-a5.tex: $(DEFAULTDEPS) $(DEPS)
 	echo $(DEPS)
-	xsltproc -novalid --stringparam centering '$(CENTERING)' $(HL)/latehxigu.xslt index.html  \
+	$(SAXON) centering='$(CENTERING)' -xsl:$(HL)/latehxigu.xslt -s:index.html  \
 	| $(SED) > $@
 
 %-a4.tex: $(DEFAULTDEPS) $(DEPS)
-	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper $(HL)/latehxigu.xslt index.html \
+	$(SAXON) centering='$(CENTERING)' geometry=a4paper -xsl:$(HL)/latehxigu.xslt -s:index.html \
 	| $(SED) > $@
 
 %-epub.tex: $(DEFAULTDEPS) $(DEPS)
-	xsltproc -novalid --stringparam centering '$(CENTERING)' --stringparam geometry a4paper --stringparam titolpagxo titolpag_epub   $(HL)/latehxigu.xslt index.html \
+	$(SAXON) centering='$(CENTERING)' geometry=a4paper titolpagxo=titolpag_epub   -xsl:$(HL)/latehxigu.xslt -s:index.html \
 	| $(SED) > $@
 
 %.dvi: %.tex
@@ -86,7 +93,7 @@ revisio.txt: .FORCE
 
 
 %-epub.metadata: index.html $(HL)/epub-metadata.xslt
-	xsltproc -novalid   $(HL)/epub-metadata.xslt $<  > $@
+	$(SAXON)  -xsl:$(HL)/epub-metadata.xslt -s:$<  > $@
 
 per-docker:
 	docker run --rm --user $(CURRENT_UID):$(CURRENT_GID) -v `pwd`/..:/laboro mihxil/html2latex:latest make -C /laboro/$(notdir $(CURDIR))
