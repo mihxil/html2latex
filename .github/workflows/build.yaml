@@ -31,14 +31,14 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: mihxil/html2latex:latest
       - name: Build and push latex2html
         uses: docker/build-push-action@v5
         with:
           context: latex2html
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: mihxil/latex2html:latest
           build-args: |
