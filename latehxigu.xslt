@@ -1,6 +1,7 @@
 <xsl:stylesheet
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    expand-text="no"
    version="3.0" >
   <!--
       Converts an HTML file to LaTeX
@@ -10,6 +11,8 @@
   <xsl:param name="centering"></xsl:param>
   <xsl:param name="language">esperanto</xsl:param>
   <xsl:param name="titolpagxo">titolpag</xsl:param>
+  <xsl:param name="figure">wrapfigure</xsl:param>
+
 
   <xsl:include href="util.xslt" />
 
@@ -79,20 +82,26 @@
   <xsl:template match="h:img[@class='right' or @class='left']">
     <xsl:variable name="align">
       <xsl:choose>
-        <xsl:when test="@class = 'right'">r</xsl:when>
-        <xsl:when test="@class = 'left'">l</xsl:when>
+        <xsl:when test="@class = 'right'">R</xsl:when>
+        <xsl:when test="@class = 'left'">L</xsl:when>
       </xsl:choose>
       
     </xsl:variable>
     <xsl:text>
-      \begin{wrapfigure}{$align}{0.5\textwidth}
+      \begin{</xsl:text><xsl:value-of select="$figure" /><xsl:text>}</xsl:text>
+      <xsl:if test="$figure = 'wrapfigure'">
+        <xsl:text>{</xsl:text><xsl:value-of select="$align" /><xsl:text>}{0.5\textwidth}</xsl:text>
+     </xsl:if>
+      <xsl:text>
       \centering
       \includegraphics[width=0.5\textwidth]{</xsl:text>
-      <xsl:value-of select="@src" />
+    <xsl:call-template name="substring-before-last">
+      <xsl:with-param name="string1" select="@src" />
+      <xsl:with-param name="string2" select="'.'" />
+    </xsl:call-template>
       <xsl:text>}
       \em{</xsl:text><xsl:value-of select="@alt" /><xsl:text>}
-      \end{wrapfigure}
-      </xsl:text>
+    \end{</xsl:text><xsl:value-of select="$figure" /><xsl:text>}</xsl:text>
   </xsl:template>
 
   <xsl:template match="h:object[@class='right']">
@@ -208,7 +217,7 @@
 
  
   <xsl:template match="h:span[@class='klar']" >
-    <xsl:text>{\sc </xsl:text><xsl:apply-templates select="text()|h:span|h:a|h:em" /><xsl:text>}</xsl:text>
+    <xsl:text>{\textsc </xsl:text><xsl:apply-templates select="text()|h:span|h:a|h:em" /><xsl:text>}</xsl:text>
   </xsl:template>
 
   <xsl:template match="h:a" >
@@ -232,5 +241,23 @@
   <xsl:template match="h:br">
     <xsl:text>\\</xsl:text>
   </xsl:template>
+  
+  <xsl:template name="substring-before-last">
+  <xsl:param name="string1" select="''" />
+  <xsl:param name="string2" select="''" />
+
+  <xsl:if test="$string1 != '' and $string2 != ''">
+    <xsl:variable name="head" select="substring-before($string1, $string2)" />
+    <xsl:variable name="tail" select="substring-after($string1, $string2)" />
+    <xsl:value-of select="$head" />
+    <xsl:if test="contains($tail, $string2)">
+      <xsl:value-of select="$string2" />
+      <xsl:call-template name="substring-before-last">
+        <xsl:with-param name="string1" select="$tail" />
+        <xsl:with-param name="string2" select="$string2" />
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:if>
+</xsl:template>
 
 </xsl:stylesheet>
