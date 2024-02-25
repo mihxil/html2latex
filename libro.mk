@@ -50,7 +50,7 @@ revisio.txt: .FORCE
 	| $(SED) > $@
 
 %-epub.tex: $(DEFAULTDEPS) $(DEPS)
-	$(SAXON) centering='$(CENTERING)' geometry=a4paper titolpagxo=titolpag_epub   -xsl:$(HL)/latehxigu.xslt -s:index.html \
+	$(SAXON) centering='$(CENTERING)' geometry=a4paper titolpagxo=titolpag_epub figure=figure -xsl:$(HL)/latehxigu.xslt -s:index.html \
 	| $(SED) > $@
 
 %.dvi: %.tex
